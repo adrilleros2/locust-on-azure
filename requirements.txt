@@ -1,1 +1,15 @@
 locust
+
+### PIP  Requirements
+
+pip install python-dotenv
+
+pip install azure-data-tables
+
+### .env 
+
+Provide a .env file inside the locust folder with the following content:
+
+HOST=""
+CONNECTION_STRING=""
+JSON_DATA=""

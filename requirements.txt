@@ -6,6 +6,8 @@ pip install python-dotenv
 
 pip install azure-data-tables
 
+pip install locust-plugins
+
 ### .env 
 
 Provide a .env file inside the locust folder with the following content:

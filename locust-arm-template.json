@@ -73,9 +73,7 @@
                                 }
                             ],
                             "command": [
-                                "locust",
-                                "--locustfile",
-                                "/home/locust/locust/locustfile.py",
+                                "/home/locust/locust/entrypoint.sh",
                                 "--master",
                                 "--expect-workers",
                                 "[parameters('numberOfInstances')]",
@@ -147,9 +145,7 @@
                                 }
                             ],
                             "command": [
-                                "locust",
-                                "--locustfile",
-                                "/home/locust/locust/locustfile.py",
+                                "/home/locust/locust/entrypoint.sh",
                                 "--worker",
                                 "--master-host",
                                 "[reference(resourceId('Microsoft.ContainerInstance/containerGroups', variables('masterContainerGroupName'))).ipAddress.ip]",

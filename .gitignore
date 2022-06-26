@@ -358,3 +358,5 @@ log.txt
 locust.conf
 locustfile-dm.py
 **/.env
+
+*.http

@@ -1,5 +1,4 @@
 import time, random, string, os, inspect, gevent
-import locust_plugins
 
 from locust.runners import STATE_STOPPING, STATE_STOPPED, STATE_CLEANUP, WorkerRunner
 from locust import HttpUser, task, between, tag, events, User, TaskSet

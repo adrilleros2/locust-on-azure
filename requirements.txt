@@ -5,6 +5,7 @@ locust
 pip install python-dotenv
 
 pip install azure-data-tables
+pip install azure-storage-file-share
 
 pip install locust-plugins
 

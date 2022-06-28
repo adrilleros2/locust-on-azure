@@ -16,3 +16,6 @@ Provide a .env file inside the locust folder with the following content:
 HOST=""
 CONNECTION_STRING=""
 JSON_DATA=""
+
+
+pip3 install pycryptodomex

@@ -17,20 +17,20 @@ def _(parser):
     parser.add_argument("--event-object-id", type=str, default="")
     parser.add_argument("--move-to-file-share", type=str, default="")
 
-# @events.test_start.add_listener
-# def on_test_start(environment, **kwargs):
-#     if not isinstance(environment.runner, WorkerRunner):
-#         gevent.spawn(check_total_requests_reached, environment)
-#
-#
-# def check_total_requests_reached(environment):
-#     global expected_request_count
-#     while not environment.runner.state in [STATE_STOPPING, STATE_STOPPED, STATE_CLEANUP]:
-#         time.sleep(0.025)
-#         # print("total: ", environment.runner.stats.total.num_requests)
-#         if environment.runner.stats.total.num_requests >= environment.parsed_options.event_count:
-#             environment.runner.quit()
-#             return
+@events.test_start.add_listener
+def on_test_start(environment, **kwargs):
+    if not isinstance(environment.runner, WorkerRunner):
+        gevent.spawn(check_total_requests_reached, environment)
+
+
+def check_total_requests_reached(environment):
+    global expected_request_count
+    while not environment.runner.state in [STATE_STOPPING, STATE_STOPPED, STATE_CLEANUP]:
+        time.sleep(0.025)
+        # print("total: ", environment.runner.stats.total.num_requests)
+        if environment.runner.stats.total.num_requests >= environment.parsed_options.event_count:
+            environment.runner.quit()
+            return
 
 
 class FileShareTasks(TaskSet):
@@ -90,15 +90,17 @@ class FileShareUser(User):
             if self.empty_or_starts_with_hash(event_object_id):
                 event_object_id = str(uuid.uuid4()).upper()
 
-            event_object_directory = file_share_client.get_directory_client(event_object_id)
-            if not event_object_directory.exists():
-                print("Creating directory")
-                event_object_directory.create_directory()
-            else:
-                print("Directory already exists")
+            # event_object_directory = file_share_client.get_directory_client(event_object_id)
+            # if not event_object_directory.exists():
+            #     print("Creating directory")
+            #     event_object_directory.create_directory()
+            # else:
+            #     print("Directory already exists")
 
-            file_name = str(uuid.uuid4()).upper() + ".json"
-            event_object_directory.upload_file(file_name, os.getenv("JSON_DATA"))
+            file_name = event_object_id + "-" + str(uuid.uuid4()).upper() + ".json"
+            file_client = file_share_client.get_file_client(file_name)
+
+            file_client.upload_file(os.getenv("JSON_DATA"))
 
             request_meta["response_time"] = (time.perf_counter() - start_perf_counter) * 1000
             self.environment.events.request.fire(**request_meta)
